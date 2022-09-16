@@ -5,16 +5,19 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.spring.springbootcrud.dao.EmployeeDAO;
+import com.spring.springbootcrud.dao.EmployeeDAOHibernate;
+import com.spring.springbootcrud.dao.IEmployeeDAO;
 import com.spring.springbootcrud.entity.Employee;
 
 @Service
 public class EmployeeService implements IEmployeeService {
 
 	@Autowired
-	EmployeeDAO employeeDAO;
+	@Qualifier("employeeDAOJpa")  //employeeDAOHibernate for hibernate
+	IEmployeeDAO employeeDAO;
 	
 	@Override
 	@Transactional
