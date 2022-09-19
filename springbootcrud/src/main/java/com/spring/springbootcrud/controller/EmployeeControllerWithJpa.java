@@ -17,7 +17,7 @@ import com.spring.springbootcrud.service.EmployeeService;
 
 @RestController
 @RequestMapping("/apijpa")
-public class EmployeeControllerWithJpaRepo {
+public class EmployeeControllerWithJpa {
 
 	@Autowired
 	EmployeeService employeeService;
