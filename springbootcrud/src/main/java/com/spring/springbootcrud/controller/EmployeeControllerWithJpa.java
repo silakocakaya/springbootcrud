@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.springbootcrud.entity.Employee;
+import com.spring.springbootcrud.exception.EmployeeNotFoundException;
 import com.spring.springbootcrud.service.EmployeeService;
 
 @RestController
@@ -31,7 +32,7 @@ public class EmployeeControllerWithJpa {
 	public Employee findById(@PathVariable int theId) {
 		Employee employee = employeeService.findById(theId);
 		if(employee == null) {
-			throw new RuntimeException("Id bulunamadi: " + theId);
+			throw new EmployeeNotFoundException("Id bulunamadi: " + theId);
 		}
 		return employee;
 	}

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.springbootcrud.entity.Employee;
+import com.spring.springbootcrud.exception.EmployeeNotFoundException;
 import com.spring.springbootcrud.service.EmployeeService;
 
 @RestController
@@ -34,7 +35,8 @@ public class EmployeeController {
 	public Employee findById(@PathVariable int theId) {
 		Employee employee = employeeService.findById(theId);
 		if(employee == null) {
-			throw new RuntimeException("Id bulunamadi: " + theId);
+			throw new EmployeeNotFoundException("Id bulunamadi: " + theId);
+			
 		}
 		return employee;
 	}
