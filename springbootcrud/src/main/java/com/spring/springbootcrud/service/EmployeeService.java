@@ -16,7 +16,7 @@ import com.spring.springbootcrud.entity.Employee;
 public class EmployeeService implements IEmployeeService {
 
 	@Autowired
-	@Qualifier("employeeDAOJpa")  //employeeDAOHibernate for hibernate
+	@Qualifier("employeeDAOHibernate")  //employeeDAOHibernate for hibernate
 	IEmployeeDAO employeeDAO;
 	
 	@Override
@@ -49,6 +49,15 @@ public class EmployeeService implements IEmployeeService {
 	@Transactional
 	public void deleteById(int theId) {
 		employeeDAO.deleteById(theId);
+	}
+
+	@Override
+	public Employee saveThenReturn(Employee theEmployee) {
+		theEmployee.setId(0);
+		//Works with hibernate
+		employeeDAO.save(theEmployee);
+		
+		return theEmployee;
 	}
 
 }

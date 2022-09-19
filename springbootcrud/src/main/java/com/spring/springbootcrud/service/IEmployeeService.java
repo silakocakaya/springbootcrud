@@ -12,6 +12,8 @@ public interface IEmployeeService {
 	
 	public void save(Employee theEmployee);
 	
+	public Employee saveThenReturn(Employee theEmployee);
+	
 	public void update(Employee theEmployee);
 	
 	public void deleteById(int theId);

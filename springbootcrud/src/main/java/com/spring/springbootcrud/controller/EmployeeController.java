@@ -1,8 +1,10 @@
 package com.spring.springbootcrud.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.springbootcrud.entity.Employee;
 import com.spring.springbootcrud.service.EmployeeService;
@@ -37,9 +40,16 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public Employee addEmployee(@RequestBody Employee employee) {
-		employeeService.save(employee);
-		return employee;
+	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+		Employee employeeSaved = employeeService.saveThenReturn(employee);
+		
+		System.out.println(employeeSaved.getId());
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+						.path("/{id}")
+						.buildAndExpand(employeeSaved.getId())
+						.toUri();
+		
+		return ResponseEntity.created(location).build();
 	}
 	
 	@PutMapping("/employees")

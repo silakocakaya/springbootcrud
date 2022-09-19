@@ -54,4 +54,10 @@ public class EmployeeServiceWithJpaRepo implements IEmployeeService {
 		employeeDAOJpaRepo.deleteById(theId);
 	}
 
+	@Override
+	public Employee saveThenReturn(Employee theEmployee) {
+		employeeDAOJpaRepo.save(theEmployee);
+		return theEmployee;
+	}
+
 }
