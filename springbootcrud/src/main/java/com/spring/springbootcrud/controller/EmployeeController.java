@@ -3,6 +3,8 @@ package com.spring.springbootcrud.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +44,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee) {
 		Employee employeeSaved = employeeService.saveThenReturn(employee);
 		
 		System.out.println(employeeSaved.getId());
