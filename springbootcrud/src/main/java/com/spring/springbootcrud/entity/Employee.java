@@ -9,6 +9,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +27,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+//@JsonIgnoreProperties("id") //Static filtering @JsonIgnore yerine buraya da yazabiliriz
+@JsonFilter("EmployeeEpostaFilter") //Dynamic filtering
 public class Employee {
 
 	@Id
@@ -34,9 +41,12 @@ public class Employee {
 	private String firstName;
 	
 	@Column(name="last_name")
+	//Static filtering
+	//@JsonIgnore //Static filtering
 	private String lastName;
 	
 	@Email(message = "Email should be in e-mail format")
 	@Column(name="email")
+	@JsonProperty("eposta")
 	private String email;
 }

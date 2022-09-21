@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.spring.springbootcrud.entity.Employee;
 import com.spring.springbootcrud.exception.EmployeeNotFoundException;
 import com.spring.springbootcrud.service.EmployeeService;
@@ -73,5 +77,23 @@ public class EmployeeController {
 		employeeService.deleteById(theId);
 		
 		return "Employee deleted Id: " + theId;
+	}
+	
+	@GetMapping("/filtering") //field2
+	public MappingJacksonValue filtering() {
+		
+		Employee employee = employeeService.findById(1);
+
+		MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(employee);
+		//eposta disindakileri getirmez
+		SimpleBeanPropertyFilter filter = 
+				SimpleBeanPropertyFilter.filterOutAllExcept("eposta");
+		
+		FilterProvider filters = 
+				new SimpleFilterProvider().addFilter("EmployeeEpostaFilter", filter);
+		
+		mappingJacksonValue.setFilters(filters );
+		
+		return mappingJacksonValue;
 	}
 }
