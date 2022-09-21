@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +40,12 @@ public class EmployeeController {
 		Employee employee = employeeService.findById(theId);
 		if(employee == null) {
 			throw new EmployeeNotFoundException("Id bulunamadi: " + theId);
-			
 		}
+		
+		EntityModel<Employee> entityModel = EntityModel.of(employee);
+		WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findAll());
+		entityModel.add(link.withRel("all-users"));
+		
 		return employee;
 	}
 	
